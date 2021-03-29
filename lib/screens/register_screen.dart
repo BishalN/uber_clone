@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 1,
             ),
             Text(
-              'Login as a rider',
+              'Register as a rider',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: 'Bolt',
@@ -39,9 +39,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 1,
                   ),
                   TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'Name',
+                      labelStyle: TextStyle(fontSize: 14),
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
+                    ),
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  SizedBox(
+                    height: 1,
+                  ),
+                  SizedBox(
+                    height: 1,
+                  ),
+                  TextField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'Email Address',
+                      labelStyle: TextStyle(fontSize: 14),
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
+                    ),
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  SizedBox(
+                    height: 1,
+                  ),
+                  SizedBox(
+                    height: 1,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      labelText: 'Phone Number',
                       labelStyle: TextStyle(fontSize: 14),
                       hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
                     ),
@@ -69,10 +99,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: Colors.white,
                     child: Container(
                       height: 50.0,
-                      width: 150,
+                      width: 250,
                       child: Center(
                         child: Text(
-                          'Login',
+                          'Create an account',
                           style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'Bolt',
@@ -89,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
             FlatButton(
               onPressed: () => {},
               child: Text(
-                'Don\'t have an account ? Register here.',
+                'Already have an account ? Login here.',
               ),
             )
           ],

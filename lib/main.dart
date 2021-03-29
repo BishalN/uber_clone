@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uber_clone/screens/login_screen.dart';
+import 'package:uber_clone/screens/register_screen.dart';
 
 import 'screens/mainscreen.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: RegisterScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
