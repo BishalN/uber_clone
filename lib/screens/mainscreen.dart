@@ -10,7 +10,10 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('UberClone'),
+        title: Text(
+          'Uber',
+          style: TextStyle(letterSpacing: 10, fontFamily: 'Bolt'),
+        ),
       ),
     );
   }
