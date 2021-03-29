@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:uber_clone/screens/register_screen.dart';
+
+import './register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const screenName = 'login';
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -86,8 +90,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            FlatButton(
-              onPressed: () => {},
+            TextButton(
+              onPressed: () => {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RegisterScreen.screenName, (route) => false)
+              },
               child: Text(
                 'Don\'t have an account ? Register here.',
               ),
