@@ -209,6 +209,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   displayToastMessage(String message, BuildContext context) {
     print('object');
-    Fluttertoast.showToast(msg: message, textColor: Colors.black);
+    Fluttertoast.showToast(msg: message);
   }
 }

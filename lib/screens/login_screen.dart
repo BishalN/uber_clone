@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uber_clone/screens/mainscreen.dart';
 import 'package:uber_clone/screens/register_screen.dart';
+import 'package:uber_clone/widgets/dialog.dart';
 
 import './register_screen.dart';
 
@@ -10,6 +14,48 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _emailAddress = TextEditingController();
+  TextEditingController _password = TextEditingController();
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  displayToastMessage(String message, BuildContext context) {
+    print('object');
+    Fluttertoast.showToast(msg: message);
+  }
+
+  void loginUser(BuildContext context) async {
+    if (_formKey.currentState.validate()) {
+      // ScaffoldMessenger.of(context)
+      //     .showSnackBar(SnackBar(content: Text('Logging you in')));
+
+      try {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return ProgressDialog(message: 'Authenticating! please wait....');
+            });
+        UserCredential userCredential =
+            await _firebaseAuth.signInWithEmailAndPassword(
+                email: _emailAddress.text, password: _password.text);
+
+        if (userCredential.user != null) {
+          Navigator.pop(context);
+          displayToastMessage('Logged in successfully', context);
+
+          Navigator.pushNamedAndRemoveUntil(
+              context, MainScreen.screenName, (route) => false);
+        }
+      } catch (e) {
+        Navigator.pop(context);
+
+        displayToastMessage(e.toString(), context);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,57 +83,61 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Padding(
               padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 1,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelText: 'Email Address',
-                      labelStyle: TextStyle(fontSize: 14),
-                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 1,
                     ),
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(
-                    height: 1,
-                  ),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: TextStyle(fontSize: 14),
-                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
-                    ),
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(
-                    height: 25.0,
-                  ),
-                  // ignore: deprecated_member_use
-                  RaisedButton(
-                    onPressed: () => {print('Login button clicked')},
-                    color: Colors.yellow,
-                    textColor: Colors.white,
-                    child: Container(
-                      height: 50.0,
-                      width: 150,
-                      child: Center(
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'Bolt',
-                              fontWeight: FontWeight.bold),
-                        ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Enter an email address";
+                        } else {
+                          return null;
+                        }
+                      },
+                      controller: _emailAddress,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText: 'Email Address',
+                        labelStyle: TextStyle(fontSize: 14),
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
                       ),
+                      style: TextStyle(fontSize: 14),
                     ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24)),
-                  )
-                ],
+                    SizedBox(
+                      height: 1,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Enter password";
+                        } else {
+                          return null;
+                        }
+                      },
+                      controller: _password,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: TextStyle(fontSize: 14),
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
+                      ),
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(
+                      height: 25.0,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        loginUser(context);
+                      },
+                      child: Text('Login'),
+                    )
+                  ],
+                ),
               ),
             ),
             TextButton(
